@@ -104,12 +104,6 @@ class _LoginScreenState extends State<LoginScreen> implements LoginNavigator{
                           )
                       ),
                       SizedBox(height: 30,),
-                      TextButton(onPressed: (){
-
-                      }, child: Text("Forget your password ?" , style : TextStyle(color : Colors.black ,
-                        fontSize: 20 , fontWeight: FontWeight.w400
-                      ))),
-                      SizedBox(height: 30,),
                       ElevatedButton.icon(
                           onPressed: (){
                             signIn();
@@ -119,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginNavigator{
                         icon: Icon(Icons.arrow_forward),),
                       SizedBox(height: 30,),
                       TextButton(onPressed: (){
-                         Navigator.pushNamed(context, RegisterScreen.routeName);
+                         Navigator.pushReplacementNamed(context, RegisterScreen.routeName);
                       }, child: Text("Or create an account" , style : TextStyle(color : Colors.black ,
                           fontSize: 20 , fontWeight: FontWeight.w400
                       ))),

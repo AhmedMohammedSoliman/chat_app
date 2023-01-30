@@ -2,11 +2,11 @@ import 'package:chat_app/add_room/add_room_screen.dart';
 import 'package:chat_app/chat_screen/chat_screen.dart';
 import 'package:chat_app/home/home_view_model.dart';
 import 'package:chat_app/home/roomWidget.dart';
+import 'package:chat_app/userProvider/userProvider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../add_room/roomModel.dart';
 import '../dataBase/firebBasefuns.dart';
 import 'home_navigator.dart';
@@ -22,6 +22,8 @@ class HomeScreen extends StatefulWidget{
 class _HomeScreenState extends State<HomeScreen> implements HomeNavigator{
 
   HomeViewModel viewModel = HomeViewModel();
+  List<RoomModel> results = [];
+
 
   @override
   void initState() {
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeNavigator{
   }
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<UserProvider>(context);
     return ChangeNotifierProvider(
       create: (context) => viewModel,
       child: Stack(
@@ -51,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeNavigator{
                 }else if (asyncSnapShot.hasError){
                   return Column(
                     children: [
-                      Text("SoneThine went wrong"),
+                      Text("Please check your internet"),
                       SizedBox(height: 10,),
                       ElevatedButton(
                           onPressed: (){
@@ -62,23 +65,53 @@ class _HomeScreenState extends State<HomeScreen> implements HomeNavigator{
                   );
                 }else {
                   var roomList = asyncSnapShot.data?.docs.map((doc) => doc.data()).toList();
-                  return Container(
+                  return Column(
+                    children: [
+                     Container(
+                       margin: EdgeInsets.symmetric(horizontal: 20),
+                       child: Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                           Expanded(
+                             child: Text("Welcome : ${provider.user!.userName}" ,maxLines: 2
+                               ,overflow:TextOverflow.ellipsis ,
+                               style: TextStyle(color: Colors.white ,
+                             fontSize: 25 , fontWeight: FontWeight.bold),),
+                           ),
+                           Container(
+                             padding: EdgeInsets.all(5),
+                             decoration: BoxDecoration(
+                               borderRadius: BorderRadius.circular(30),
+                               color: Colors.white,
+                             ),
+                             child: IconButton(
+                                 onPressed: () => showSearch(context: context, delegate: searchdelegate()),
+                                 icon: Icon(Icons.search , size: 30, color: Colors.black,)),
+                           )
+                         ],
+                       ),
+                     ),
+                  Expanded(
+                    child: Container(
                     padding: EdgeInsets.all(10),
                     margin: EdgeInsets.symmetric(vertical: 30),
                     child: GridView.builder(
-                      itemCount: roomList?.length ,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2 ,
-                          mainAxisSpacing: 10 ,
-                          crossAxisSpacing: 10
-                        ),
-                        itemBuilder: (context , index) => InkWell(
-                          onTap: (){
-                            navigateToChat(roomList![index]);
-                          },
-                          child: RoomWidget(title: roomList?[index].titleRoom ?? "",
-                            image: "assets/images/${roomList?[index].categoryId ?? ""}.png"),
-                        )),
+                    itemCount: roomList?.length ,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2 ,
+                    mainAxisSpacing: 10 ,
+                    crossAxisSpacing: 10
+                    ),
+                    itemBuilder: (context , index) => InkWell(
+                    onTap: (){
+                    navigateToChat(roomList![index]);
+                    },
+                    child: RoomWidget(title: roomList?[index].titleRoom ?? "",
+                    image: "assets/images/${roomList?[index].categoryId ?? ""}.png"),
+                    )),
+                    ),
+                  )
+                    ],
                   );
                 }
                 }
@@ -106,6 +139,85 @@ class _HomeScreenState extends State<HomeScreen> implements HomeNavigator{
       "roomId" : room.roomId
     });
   }
+  void filterList (List<RoomModel> roomList , String inputText){
+    if (inputText.isEmpty){
+      results = roomList ;
+    }else {
+      results = roomList.where((room) => room.titleRoom.toLowerCase().contains(inputText.toLowerCase())).toList() ;
+    }
+    setState((){
+    });
+  }
+}
+class searchdelegate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+   return [
+     IconButton(
+         onPressed: (){
+         showResults(context);
+     }, icon: Icon(Icons.search , size: 25,))
+   ] ;
+  }
 
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: (){
+          Navigator.pop(context);
+        }, icon: Icon(Icons.cancel , size: 25,));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return StreamBuilder<QuerySnapshot<RoomModel>>(
+        stream: FireBaseFunc.getRoomsFromFireBase(query: query),
+        builder: (context , asyncSnapShot) {
+          if (asyncSnapShot.connectionState == ConnectionState.waiting){
+            return Center(child: CircularProgressIndicator());
+          }else if (asyncSnapShot.hasError){
+            return Column(
+              children: [
+                Text("Please check your internet"),
+                SizedBox(height: 10,),
+                ElevatedButton(
+                    onPressed: (){
+                      FireBaseFunc.getRoomsFromFireBase();
+                    },
+                    child: Text("Try again"))
+              ],
+            );
+          }else {
+            var roomList = asyncSnapShot.data?.docs.map((doc) => doc.data()).toList();
+            return Expanded(
+              child: Container(
+                color: Colors.white,
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.symmetric(vertical: 30),
+                child: ListView.separated(
+                  separatorBuilder: (context , index) => SizedBox(height: 20,),
+                    itemCount: roomList!.length ,
+                    itemBuilder: (context , index) => InkWell(
+                      onTap: (){
+                        Navigator.pushNamed(context, ChatScreen.routeName , arguments: {
+                          "room_title" : roomList[index].titleRoom ,
+                          "room" : roomList[index] ,
+                          "roomId" : roomList[index].roomId
+                        } );
+                      },
+                      child: RoomWidget(title: roomList[index].titleRoom,
+                          image: "assets/images/${roomList[index].categoryId}.png"),
+                    )),
+              ),
+            );
+          }
+        }
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Center(child: Text("suggestions" , style: TextStyle(color: Colors.white),));
+  }
 
 }

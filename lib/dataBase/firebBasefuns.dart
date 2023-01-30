@@ -25,7 +25,7 @@ class FireBaseFunc {
          roomModel.roomId = doc.id ;
       return doc.set(roomModel);
   }
-   static Stream<QuerySnapshot<RoomModel>> getRoomsFromFireBase(){
+   static Stream<QuerySnapshot<RoomModel>> getRoomsFromFireBase({String? query}){
    return  getCollectionFromFireBaseTwo().snapshots();
    }
 
@@ -35,7 +35,7 @@ class FireBaseFunc {
    }
 
    static Future<MyUser?> getUserFromFireBase(String userId)async{
-   var documentSnapShot =await getCollectionFromFireBase().doc(userId).get();
+   var documentSnapShot = await getCollectionFromFireBase().doc(userId).get();
   return documentSnapShot.data();
    }
 

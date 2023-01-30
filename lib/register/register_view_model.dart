@@ -22,9 +22,7 @@ class RegisterViewModel extends ChangeNotifier{
       // save data
       MyUser user = MyUser(id: credential.user?.uid ?? "", firstName: firstName, lastName: lastName, userName: userName, email: email);
       var userData = await FireBaseFunc.saveData(user);
-
       navigator.hideLoading();
-      navigator.showMessage("Register successfully");
       navigator.navigateToHome(user);
     } on FirebaseAuthException catch (e) {
       if (e.code == FireBaseErrors.weakPassword) {

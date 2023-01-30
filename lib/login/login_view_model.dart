@@ -18,6 +18,7 @@ class LoginViewModel extends ChangeNotifier{
       );
       MyUser? userObject =await FireBaseFunc.getUserFromFireBase(credential.user?.uid ?? "");
       if (userObject != null){
+        navigator.hideLoading();
        navigator.navigateToHome(userObject);
       }
       print("userId : ${credential.user?.uid}");

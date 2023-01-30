@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:chat_app/dataBase/userModel.dart';
 import 'package:chat_app/home/home_screen.dart';
@@ -60,123 +59,125 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterInte
             ),
             body: Padding(
               padding: const EdgeInsets.all(10.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text("Welcome back !" , style: Theme.of(context).textTheme.headline1,) ,
-                    SizedBox(height: 30,),
-                    Form(
-                      key: formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              validator: (text){
-                                if (text== null  || text.trim().isEmpty){
-                                  return "This field is required";
-                                }else {
-                                  return null ;
-                                }
-                              },
-                              onChanged: (text){
-                                firstName = text ;
-                              },
-                              decoration: InputDecoration(
-                                  hintText: "Enter your first name" ,
-                                  suffixIcon: Icon(Icons.person),
-                                  enabledBorder: UnderlineInputBorder()
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text("Welcome back !" , style: Theme.of(context).textTheme.headline1,) ,
+                      SizedBox(height: 30,),
+                      Form(
+                        key: formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                validator: (text){
+                                  if (text== null  || text.trim().isEmpty){
+                                    return "This field is required";
+                                  }else {
+                                    return null ;
+                                  }
+                                },
+                                onChanged: (text){
+                                  firstName = text ;
+                                },
+                                decoration: InputDecoration(
+                                    hintText: "Enter your first name" ,
+                                    suffixIcon: Icon(Icons.person),
+                                    enabledBorder: UnderlineInputBorder()
+                                ),
+                                keyboardType: TextInputType.text,
                               ),
-                              keyboardType: TextInputType.text,
-                            ),
-                            SizedBox(height: 20,),
-                            TextFormField(
-                              validator: (text){
-                                if (text== null  || text.trim().isEmpty){
-                                  return "This field is required";
-                                }else {
-                                  return null ;
-                                }
-                              },
-                              onChanged: (text){
-                                lastName = text ;
-                              },
-                              decoration: InputDecoration(
-                                  hintText: "Enter your last name" ,
-                                  suffixIcon: Icon(Icons.person),
-                                  enabledBorder: UnderlineInputBorder()
+                              SizedBox(height: 20,),
+                              TextFormField(
+                                validator: (text){
+                                  if (text== null  || text.trim().isEmpty){
+                                    return "This field is required";
+                                  }else {
+                                    return null ;
+                                  }
+                                },
+                                onChanged: (text){
+                                  lastName = text ;
+                                },
+                                decoration: InputDecoration(
+                                    hintText: "Enter your last name" ,
+                                    suffixIcon: Icon(Icons.person),
+                                    enabledBorder: UnderlineInputBorder()
+                                ),
+                                keyboardType: TextInputType.text,
                               ),
-                              keyboardType: TextInputType.text,
-                            ),
-                            SizedBox(height: 20,),
-                            TextFormField(
-                              validator: (text){
-                                if (text== null  || text.trim().isEmpty){
-                                  return "This field is required";
-                                }else {
-                                  return null ;
-                                }
-                              },
-                              onChanged: (text){
-                                userName = text ;
-                              },
-                              decoration: InputDecoration(
-                                  hintText: "Enter your user name" ,
-                                  suffixIcon: Icon(Icons.person),
-                                  enabledBorder: UnderlineInputBorder()
+                              SizedBox(height: 20,),
+                              TextFormField(
+                                validator: (text){
+                                  if (text== null  || text.trim().isEmpty){
+                                    return "This field is required";
+                                  }else {
+                                    return null ;
+                                  }
+                                },
+                                onChanged: (text){
+                                  userName = text ;
+                                },
+                                decoration: InputDecoration(
+                                    hintText: "Enter your user name" ,
+                                    suffixIcon: Icon(Icons.person),
+                                    enabledBorder: UnderlineInputBorder()
+                                ),
+                                keyboardType: TextInputType.text,
                               ),
-                              keyboardType: TextInputType.text,
-                            ),
-                            SizedBox(height: 20,),
-                            TextFormField(
-                              validator: (text){
-                                if (text== null  || text.trim().isEmpty){
-                                  return "This field is required";
-                                }else {
-                                  return null ;
-                                }
-                              },
-                              onChanged: (text){
-                                email = text ;
-                              },
-                              decoration: InputDecoration(
-                                  hintText: "Enter your email" ,
-                                  suffixIcon: Icon(Icons.email),
-                                  enabledBorder: UnderlineInputBorder()
+                              SizedBox(height: 20,),
+                              TextFormField(
+                                validator: (text){
+                                  if (text== null  || text.trim().isEmpty){
+                                    return "This field is required";
+                                  }else {
+                                    return null ;
+                                  }
+                                },
+                                onChanged: (text){
+                                  email = text ;
+                                },
+                                decoration: InputDecoration(
+                                    hintText: "Enter your email" ,
+                                    suffixIcon: Icon(Icons.email),
+                                    enabledBorder: UnderlineInputBorder()
+                                ),
+                                keyboardType: TextInputType.emailAddress,
                               ),
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                            SizedBox(height: 20,),
-                            TextFormField(
-                              validator: (text){
-                                if (text== null  || text.trim().isEmpty){
-                                  return "This field is required";
-                                }else {
-                                  return null ;
-                                }
-                              },
-                              onChanged: (text){
-                                password = text ;
-                              },
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                  hintText: "Enter your password",
-                                  suffixIcon: Icon(Icons.password),
-                                  enabledBorder: UnderlineInputBorder()
-                              ),
-                            )
-                          ],
-                        )
-                    ),
-                    SizedBox(height: 30,),
-                    ElevatedButton.icon(
-                      onPressed: (){
-                     createAccount();
-                      },
-                      label: Text("Create Account" , style: TextStyle(color: Colors.white , fontWeight:
-                      FontWeight.bold , fontSize: 20)) ,
-                      icon: Icon(Icons.arrow_forward),),
-                  ],
+                              SizedBox(height: 20,),
+                              TextFormField(
+                                validator: (text){
+                                  if (text== null  || text.trim().isEmpty){
+                                    return "This field is required";
+                                  }else {
+                                    return null ;
+                                  }
+                                },
+                                onChanged: (text){
+                                  password = text ;
+                                },
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                    hintText: "Enter your password",
+                                    suffixIcon: Icon(Icons.password),
+                                    enabledBorder: UnderlineInputBorder()
+                                ),
+                              )
+                            ],
+                          )
+                      ),
+                      SizedBox(height: 30,),
+                      ElevatedButton.icon(
+                        onPressed: (){
+                       createAccount();
+                        },
+                        label: Text("Create Account" , style: TextStyle(color: Colors.white , fontWeight:
+                        FontWeight.bold , fontSize: 20)) ,
+                        icon: Icon(Icons.arrow_forward),),
+                    ],
+                  ),
                 ),
               ),
             ),

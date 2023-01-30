@@ -10,6 +10,7 @@ class RoomWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 180,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20) ,
@@ -27,7 +28,9 @@ class RoomWidget extends StatelessWidget{
         children: [
           Image(image: AssetImage(image) , height: 100,) ,
           SizedBox(height: 20,) ,
-          Text("$title" , style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),)
+          Expanded(child: Container(
+              padding: EdgeInsets.all(10),
+              child: Text("$title" , style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),)))
         ],
       ),
     );

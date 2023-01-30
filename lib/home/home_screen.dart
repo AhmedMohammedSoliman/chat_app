@@ -22,7 +22,6 @@ class HomeScreen extends StatefulWidget{
 class _HomeScreenState extends State<HomeScreen> implements HomeNavigator{
 
   HomeViewModel viewModel = HomeViewModel();
-  List<RoomModel> results = [];
 
 
   @override
@@ -137,15 +136,6 @@ class _HomeScreenState extends State<HomeScreen> implements HomeNavigator{
       "room_title" : room.titleRoom ,
       "room" : room ,
       "roomId" : room.roomId
-    });
-  }
-  void filterList (List<RoomModel> roomList , String inputText){
-    if (inputText.isEmpty){
-      results = roomList ;
-    }else {
-      results = roomList.where((room) => room.titleRoom.toLowerCase().contains(inputText.toLowerCase())).toList() ;
-    }
-    setState((){
     });
   }
 }

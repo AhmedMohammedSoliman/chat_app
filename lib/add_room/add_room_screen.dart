@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:chat_app/add_room/add_room_navigator.dart';
 import 'package:chat_app/add_room/add_room_view_model.dart';
 import 'package:chat_app/category/category_model.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -126,8 +127,15 @@ class _AddScreenState extends State<AddScreen> implements AddRoomNavigator {
                             ),
                             SizedBox(height: 20,),
                             ElevatedButton(
-                                onPressed: (){
-                                   addRoom();
+                                onPressed: ()async{
+                                  var connectivityResult = await (Connectivity().checkConnectivity());
+                                  if(connectivityResult == ConnectivityResult.wifi || connectivityResult == ConnectivityResult.mobile){
+                                    addRoom();
+                                  }else {
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:
+                                    Text("Please check your internet and try again ")));
+                                  }
+
                                 },
                                 child: Text("Add room" , style: TextStyle(fontSize: 18),))
                           ],
@@ -144,7 +152,7 @@ class _AddScreenState extends State<AddScreen> implements AddRoomNavigator {
     );
   }
   void addRoom (){
-    if(formKey.currentState?.validate() == true){
+    if(formKey.currentState?.validate() == true && selectedCategory != null){
    viewModel.addRoomFunc(title, description, selectedCategory?.id ?? "");
     }
   }

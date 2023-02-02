@@ -9,8 +9,8 @@ class MessageWidget extends StatelessWidget{
 
   String content ;
   MessageModel messageModel ;
-
   MessageWidget({required this.content , required this.messageModel});
+
   @override
   Widget build(BuildContext context) {
    var  provider = Provider.of<UserProvider>(context);
@@ -38,7 +38,7 @@ class MessageWidget extends StatelessWidget{
           SizedBox(height: 5,),
           Text(messageModel.senderName, style: TextStyle(color: Colors.black)),
           SizedBox(height: 5,),
-          Text(DateFormat("yyyy_MM_dd  kk:mm:ss").format(DateTime.now()))
+          Text(DateFormat("yyyy_MM_dd  kk:mm:ss").format(DateTime.fromMillisecondsSinceEpoch(messageModel.date)))
         ],
       ),
     );
@@ -64,7 +64,7 @@ class MessageWidget extends StatelessWidget{
           SizedBox(height: 5,),
           Text(messageModel.senderName, style: TextStyle(color: Colors.black)),
           SizedBox(height: 5,),
-          Text(DateFormat("yyyy_MM_dd  kk:mm:ss").format(DateTime.now()))
+          Text(DateFormat("yyyy_MM_dd  kk:mm:ss").format(DateTime.fromMillisecondsSinceEpoch(messageModel.date)))
         ],
       ),
     );

@@ -1,4 +1,3 @@
-
 import 'package:chat_app/add_room/add_room_screen.dart';
 import 'package:chat_app/chat_screen/chat_screen.dart';
 import 'package:chat_app/home/home_screen.dart';
@@ -11,7 +10,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 FirebaseMessaging messaging = FirebaseMessaging.instance;
 AndroidNotificationChannel channel = const AndroidNotificationChannel(

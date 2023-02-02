@@ -4,6 +4,7 @@ import 'package:chat_app/chat_screen/messageWidget.dart';
 import 'package:chat_app/dataBase/firebBasefuns.dart';
 import 'package:chat_app/userProvider/userProvider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -144,7 +145,14 @@ class _ChatScreenState extends State<ChatScreen> implements ChatNavigator {
       ),
     );
   }
-  void addMessageFun(String content){
-    viewModel.addMessage(content) ;
+  void addMessageFun(String content)async{
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if(connectivityResult == ConnectivityResult.wifi || connectivityResult == ConnectivityResult.mobile){
+      viewModel.addMessage(content) ;
+    }else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:
+      Text("Please check our internet and try again ")));
+    }
+
   }
 }

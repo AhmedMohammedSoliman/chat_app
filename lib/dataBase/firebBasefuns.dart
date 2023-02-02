@@ -25,7 +25,7 @@ class FireBaseFunc {
          roomModel.roomId = doc.id ;
       return doc.set(roomModel);
   }
-   static Stream<QuerySnapshot<RoomModel>> getRoomsFromFireBase({String? query}){
+   static Stream<QuerySnapshot<RoomModel>> getRoomsFromFireBase(){
    return  getCollectionFromFireBaseTwo().snapshots();
    }
 

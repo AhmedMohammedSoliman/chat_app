@@ -36,6 +36,7 @@ dependencies:
   intl: ^0.17.0
   firebase_messaging: ^14.2.1
   flutter_local_notifications: ^13.0.0
+  connectivity: ^3.0.6
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -45,6 +46,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.11.0
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/chat.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
